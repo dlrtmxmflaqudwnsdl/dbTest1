@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>승인된 휴가 조회</title>
+    <script>
+        async function fetchApprovedLeaves() {
+            try {
+                const response = await fetch('/approved-leaves');
+                const data = await response.json();
+                const tableBody = document.getElementById('data-body');
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.employee_id}</td>
+                        <td>${row.employee_name}</td>
+                        <td>${row.start_date}</td>
+                        <td>${row.end_date}</td>
+                        <td>${row.approval_status}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('데이터를 가져오는 중 오류 발생:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchApprovedLeaves);
+    </script>
+</head>
+<body>
+    <h1>승인된 휴가 조회</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>직원 ID</th>
+                <th>직원 이름</th>
+                <th>휴가 시작일</th>
+                <th>휴가 종료일</th>
+                <th>승인 상태</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <!-- 데이터가 동적으로 삽입됩니다. -->
+        </tbody>
+    </table>
+    <button onclick="window.location.href='/'">메인 페이지로 돌아가기</button>
+</body>
+</html>
