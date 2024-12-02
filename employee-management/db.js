@@ -1,13 +1,15 @@
+require('dotenv').config(); // dotenv 패키지 불러오기
+
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-    host: 'localhost', // MySQL 서버 주소
-    user: 'root', // MySQL 사용자 이름
-    password: 'nbj5493642`', // MySQL 비밀번호
-    database: 'new_schema', // 데이터베이스 이름
+    host: process.env.DB_HOST, // 환경 변수 사용
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
 });
 
-module.exports = pool.promise();
+module.exports = pool;
