@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>급여 지급 목록</title>
+    <script>
+        async function fetchSalaryPayments() {
+            try {
+                const response = await fetch('/salary-payments');
+                const data = await response.json();
+                const tableBody = document.getElementById('data-body');
+                data.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row.employee_id}</td>
+                        <td>${row.employee_name}</td>
+                        <td>${row.payment_date}</td>
+                        <td>${row.base_salary}</td>
+                        <td>${row.incentive}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('데이터를 가져오는 중 오류 발생:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchSalaryPayments);
+    </script>
+</head>
+<body>
+    <h1>급여 지급 목록</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>직원 ID</th>
+                <th>직원 이름</th>
+                <th>지급 날짜</th>
+                <th>기본 급여</th>
+                <th>인센티브</th>
+            </tr>
+        </thead>
+        <tbody id="data-body">
+            <!-- 데이터가 동적으로 삽입됩니다. -->
+        </tbody>
+    </table>
+    <button onclick="window.location.href='/best-incentives.html'">최근에 높은 인센티브 받은 3인</button>
+    <button onclick="window.location.href='/'">메인 페이지로 돌아가기</button>
+</body>
+</html>

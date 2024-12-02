@@ -1,9 +1,9 @@
 require('dotenv').config(); // dotenv 패키지 불러오기
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
-    host: process.env.DB_HOST, // 환경 변수 사용
+    host: process.env.DB_HOST,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
@@ -13,3 +13,4 @@ const pool = mysql.createPool({
 });
 
 module.exports = pool;
+

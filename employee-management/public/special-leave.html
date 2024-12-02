@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>잔여 특별 휴가 조회</title>
+    <script>
+        async function fetchSpecialLeave() {
+            const employeeId = document.getElementById('employee-id').value;
+            try {
+                const response = await fetch(`/special-leave/${employeeId}`);
+                const data = await response.json();
+                document.getElementById('special-leave-info').textContent = `남은 특별 휴가 일수: ${data.remaining_special_leave}`;
+            } catch (error) {
+                console.error('데이터를 가져오는 중 오류 발생:', error);
+            }
+        }
+
+        async function rewardSpecialLeave() {
+            const employeeId = document.getElementById('employee-id').value;
+            try {
+                const response = await fetch(`/special-leave/reward/${employeeId}`, { method: 'POST' });
+                if (response.ok) {
+                    alert('특별 휴가 포상이 성공적으로 추가되었습니다.');
+                    fetchSpecialLeave();
+                }
+            } catch (error) {
+                console.error('포상을 추가하는 중 오류 발생:', error);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>특별 휴가 조회 및 포상</h1>
+    <input type="number" id="employee-id" placeholder="직원 ID 입력">
+    <button onclick="fetchSpecialLeave()">조회</button>
+    <p id="special-leave-info">특별 휴가 정보가 여기에 표시됩니다.</p>
+    <button onclick="rewardSpecialLeave()">특별 휴가 포상</button>
+    <button onclick="window.location.href='/'">메인 페이지로 돌아가기</button>
+</body>
+</html>
